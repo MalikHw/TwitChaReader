@@ -1,0 +1,75 @@
+name: Build TwitChaReader
+
+# on:
+#   push:
+#     branches: [ main, master ]
+#   pull_request:
+#     branches: [ main, master ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.5.0'
+        modules: 'qtwebsockets qtmultimedia'
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake ninja-build
+    
+    - name: Configure CMake
+      run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+    
+    - name: Build
+      run: cmake --build build --config Release
+    
+    - name: Package
+      run: |
+        cd build
+        cpack -G TGZ
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: TwitChaReader-Linux
+        path: build/TwitChaReader
+        
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.5.0'
+        modules: 'qtwebsockets qtmultimedia'
+        arch: 'win64_msvc2019_64'
+    
+    - name: Setup MSVC
+      uses: microsoft/setup-msbuild@v1.1
+    
+    - name: Configure CMake
+      run: cmake -B build -G "Visual Studio 17 2022" -A x64
+    
+    - name: Build
+      run: cmake --build build --config Release
+    
+    - name: Deploy Qt
+      run: |
+        cd build/Release
+        windeployqt TwitChaReader.exe
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: TwitChaReader-Windows
+        path: build/Release/
