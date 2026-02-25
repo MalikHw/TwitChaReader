@@ -1,5 +1,6 @@
 #include "twitchauth.h"
 #include "settings.h"
+#include "constants.h"
 #include <QDesktopServices>
 #include <QUrl>
 #include <QUrlQuery>
@@ -12,7 +13,7 @@
 TwitchAuth::TwitchAuth(QObject* parent) : QObject(parent) {
     nam = new QNetworkAccessManager(this);
     localServer = nullptr;
-    clientId = "kimne78kx3ncx6brgo4mv6wki5h1ko";
+    clientId = TWITCH_APP_CLIENT_ID;
     localPort = 3000;
 }
 

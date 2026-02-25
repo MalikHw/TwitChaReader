@@ -33,10 +33,16 @@ set(PROJECT_SOURCES
     src/notificationmanager.h
     src/filterwidget.cpp
     src/filterwidget.h
+    src/constants.h
     resources.qrc
 )
 
 add_executable(TwitChaReader ${PROJECT_SOURCES})
+
+# Add Twitch Client ID compile definition if provided
+if(DEFINED TWITCH_CLIENT_ID)
+    target_compile_definitions(TwitChaReader PRIVATE TWITCH_CLIENT_ID=${TWITCH_CLIENT_ID})
+endif()
 
 target_link_libraries(TwitChaReader PRIVATE 
     Qt6::Core 

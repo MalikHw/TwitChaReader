@@ -1,5 +1,6 @@
 #include "twitchchat.h"
 #include "settings.h"
+#include "constants.h"
 #include <QRegularExpression>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -210,7 +211,7 @@ void TwitchChat::updateChannelInfo(const QString& channel) {
     QUrl url(QString("https://api.twitch.tv/helix/streams?user_login=%1").arg(channel));
     QNetworkRequest req(url);
     req.setRawHeader("Authorization", QString("Bearer %1").arg(currentToken).toUtf8());
-    req.setRawHeader("Client-Id", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+    req.setRawHeader("Client-Id", TWITCH_APP_CLIENT_ID.toUtf8());
     req.setProperty("channel", channel);
     
     QNetworkReply* reply = nam->get(req);

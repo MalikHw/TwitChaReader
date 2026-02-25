@@ -1,4 +1,5 @@
 #include "emotemanager.h"
+#include "constants.h"
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -31,7 +32,7 @@ void EmoteManager::loadTwitchGlobalEmotes(const QString& token) {
     QUrl url("https://api.twitch.tv/helix/chat/emotes/global");
     QNetworkRequest req(url);
     req.setRawHeader("Authorization", QString("Bearer %1").arg(token).toUtf8());
-    req.setRawHeader("Client-Id", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+    req.setRawHeader("Client-Id", TWITCH_APP_CLIENT_ID.toUtf8());
     
     QNetworkReply* reply = nam->get(req);
     connect(reply, &QNetworkReply::finished, this, &EmoteManager::handleTwitchEmotesResponse);
@@ -41,7 +42,7 @@ void EmoteManager::loadChannelEmotes(const QString& channelId, const QString& to
     QUrl url(QString("https://api.twitch.tv/helix/chat/emotes?broadcaster_id=%1").arg(channelId));
     QNetworkRequest req(url);
     req.setRawHeader("Authorization", QString("Bearer %1").arg(token).toUtf8());
-    req.setRawHeader("Client-Id", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+    req.setRawHeader("Client-Id", TWITCH_APP_CLIENT_ID.toUtf8());
     
     QNetworkReply* reply = nam->get(req);
     connect(reply, &QNetworkReply::finished, this, &EmoteManager::handleTwitchEmotesResponse);
