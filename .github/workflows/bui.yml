@@ -40,7 +40,7 @@ jobs:
         cpack -G TGZ
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: TwitChaReader-Linux
         path: build/TwitChaReader
@@ -77,7 +77,7 @@ jobs:
         windeployqt TwitChaReader.exe
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: TwitChaReader-Windows
         path: build/Release/
